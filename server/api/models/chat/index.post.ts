@@ -2,8 +2,7 @@ import { Readable } from 'stream'
 import { formatDocumentsAsString } from "langchain/util/document"
 import { PromptTemplate } from "@langchain/core/prompts"
 import { RunnableSequence } from "@langchain/core/runnables"
-// import { CohereRerank } from "@langchain/cohere"
-import { CohereRerank } from "@/server/rerank/cohere"
+import { CohereRerank } from "@langchain/cohere"
 import { setEventStreamResponse } from '@/server/utils'
 import { BaseRetriever } from "@langchain/core/retrievers"
 import prisma from "@/server/utils/prisma"
@@ -65,26 +64,25 @@ export default defineEventHandler(async (event) => {
     }
 
     const embeddings = createEmbeddings(knowledgebase.embedding!, event)
+    console.log("Embeddings: ", embeddings)
     const retriever: BaseRetriever = await createRetriever(embeddings, `collection_${knowledgebase.id}`)
 
     const chat = createChatModel(model, family, event)
+    console.log("ChatModel: ", chat)
     const query = messages[messages.length - 1].content
     console.log("User query: ", query)
 
-    const relevant_docs = await retriever.getRelevantDocuments(query)
+    const relevant_docs = await retriever.invoke(query)
     console.log("Relevant documents: ", relevant_docs)
 
     let rerankedDocuments = relevant_docs
 
-    if ((process.env.COHERE_API_KEY || process.env.COHERE_BASE_URL) && process.env.COHERE_MODEL) {
-      const options = {
+    if (process.env.COHERE_API_KEY) {
+      const cohereRerank = new CohereRerank({
         apiKey: process.env.COHERE_API_KEY,
-        baseUrl: process.env.COHERE_BASE_URL,
-        model: process.env.COHERE_MODEL,
+        model: "rerank-multilingual-v2.0",
         topN: 4
-      }
-      console.log("Cohere Rerank Options: ", options)
-      const cohereRerank = new CohereRerank(options)
+      })
       rerankedDocuments = await cohereRerank.compressDocuments(relevant_docs, query)
       console.log("Cohere reranked documents: ", rerankedDocuments)
     }

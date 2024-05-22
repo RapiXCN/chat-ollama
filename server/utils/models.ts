@@ -2,20 +2,22 @@ import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama"
 import { Embeddings } from "@langchain/core/embeddings"
 import { OpenAIEmbeddings } from "@langchain/openai"
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai"
+import { AlibabaTongyiEmbeddings } from "@langchain/community/embeddings/alibaba_tongyi";
 import { BaseChatModel } from "@langchain/core/language_models/chat_models"
 import { ChatAnthropic } from "@langchain/anthropic"
 import { ChatOllama } from "@langchain/community/chat_models/ollama"
 import { ChatOpenAI } from '@langchain/openai'
-import { ChatGoogleGenerativeAI } from "~/server/models/genai/generative-ai"
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
 import { ChatGroq } from "@langchain/groq"
+import { ChatAlibabaTongyi } from "@langchain/community/chat_models/alibaba_tongyi";
 import { AzureChatOpenAI } from "@langchain/azure-openai"
 import { type H3Event } from 'h3'
 import { type Ollama } from 'ollama'
 import { proxyTokenGenerate } from '~/server/utils/proxyToken'
-import { ANTHROPIC_MODELS, AZURE_OPENAI_GPT_MODELS, GEMINI_EMBEDDING_MODELS, GEMINI_MODELS, GROQ_MODELS, MODEL_FAMILIES, MOONSHOT_MODELS, OPENAI_EMBEDDING_MODELS, OPENAI_GPT_MODELS } from '~/config/index'
+import { ANTHROPIC_MODELS, AZURE_OPENAI_GPT_MODELS, GEMINI_EMBEDDING_MODELS, TONGYI_EMBEDDING_MODELS, GEMINI_MODELS, GROQ_MODELS, TONGYI_MODELS, MODEL_FAMILIES, MOONSHOT_MODELS, OPENAI_EMBEDDING_MODELS, OPENAI_GPT_MODELS } from '~/config/index'
 
 export function isApiEmbeddingModelExists(embeddingModelName: string) {
-  return [...OPENAI_EMBEDDING_MODELS, ...GEMINI_EMBEDDING_MODELS].includes(embeddingModelName)
+  return [...OPENAI_EMBEDDING_MODELS, ...GEMINI_EMBEDDING_MODELS, ...TONGYI_EMBEDDING_MODELS].includes(embeddingModelName)
 }
 
 export async function isOllamaModelExists(ollama: Ollama, embeddingModelName: string) {
@@ -40,6 +42,16 @@ export const createEmbeddings = (embeddingModelName: string, event: H3Event): Em
       modelName: embeddingModelName,
       apiKey: keys.gemini.key,
     })
+  } else if (TONGYI_EMBEDDING_MODELS.includes(embeddingModelName)) {
+    console.log(`Creating embeddings for Tongyi model: ${embeddingModelName}`)
+    return new AlibabaTongyiEmbeddings({
+      modelName: "text-embedding-v2",
+      apiKey: keys.tongyi.key,
+      parameters: {
+        text_type: "query"
+      },
+      verbose: true
+    });
   } else {
     console.log(`Creating embeddings for Ollama served model: ${embeddingModelName}`)
     return new OllamaEmbeddings({
@@ -90,7 +102,6 @@ export const createChatModel = (modelName: string, family: string, event: H3Even
   } else if (family === MODEL_FAMILIES.gemini && GEMINI_MODELS.includes(modelName)) {
     console.log(`Chat with Gemini ${modelName}`)
     chat = new ChatGoogleGenerativeAI({
-      apiVersion: "v1beta",
       apiKey: keys.gemini.key,
       modelName: modelName
     })
@@ -102,6 +113,17 @@ export const createChatModel = (modelName: string, family: string, event: H3Even
     console.log(`Chat with Groq ${modelName}`)
     chat = new ChatGroq({
       apiKey: keys.groq.key,
+      verbose: true,
+      modelName: modelName,
+    })
+  } else if (family === MODEL_FAMILIES.tongyi && TONGYI_MODELS.includes(modelName)) {
+    // @langchain/grop does not support configuring groq's baseURL, but groq sdk supports receiving environment variables.
+    if (keys.tongyi.endpoint) {
+      process.env.Tongyi_BASE_URL = getProxyEndpoint(keys.tongyi.endpoint, keys.tongyi.proxy)
+    }
+    console.log(`Chat with Tongyi ${modelName}`)
+    chat = new ChatAlibabaTongyi({
+      alibabaApiKey: keys.tongyi.key,
       verbose: true,
       modelName: modelName,
     })

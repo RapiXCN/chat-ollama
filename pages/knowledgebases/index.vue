@@ -123,11 +123,11 @@ function onShowUpdate(data: KnowledgeBase) {
         </template>
 
         <template #actions-data="{ row }">
-          <div class="action-btn">
-            <UTooltip :text="t('global.update')">
+          <div class="action-btn invisible flex">
+            <UTooltip text="Update">
               <UButton icon="i-heroicons-pencil-square-solid" variant="ghost" class="mx-1" @click="onShowUpdate(row)" />
             </UTooltip>
-            <UTooltip :text="t('global.delete')">
+            <UTooltip text="Delete">
               <UButton color="red" icon="i-heroicons-trash-20-solid" variant="ghost" class="mx-1"
                        @click="onDelete(row)" />
             </UTooltip>

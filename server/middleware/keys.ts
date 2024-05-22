@@ -33,6 +33,11 @@ export interface ContextKeys {
     key: string
     endpoint: string
     proxy: boolean
+  },
+  tongyi: {
+    key: string
+    endpoint: string
+    proxy: boolean
   }
 }
 

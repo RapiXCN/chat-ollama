@@ -56,19 +56,17 @@ body {
 
 .table-list {
   .action-btn {
-    visibility: hidden;
-    display: inline-flex;
     transition: all 0.3s ease-in-out;
     opacity: 0;
     transform-origin: center;
-    transform: scale(0);
+    transform: translateX(10%);
   }
 
   tr:hover {
     .action-btn {
       visibility: visible;
       opacity: 1;
-      transform: scale(1);
+      transform: translateX(0%);
     }
   }
 }

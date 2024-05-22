@@ -81,6 +81,15 @@ const LLMList = computed<LLMListItem[]>(() => {
         { label: t('settings.proxy'), value: 'groq.proxy', type: 'checkbox', placeholder: t('settings.proxyTips') },
       ]
     },
+    {
+      key: 'tongyi',
+      title: t('settings.tongyi'),
+      fields: [
+        { label: t('settings.apiKey'), value: 'tongyi.key', type: 'password', placeholder: t('settings.apiKey') },
+        { label: t('settings.endpoint'), value: 'tongyi.endpoint', type: 'input', placeholder: t('global.optional') },
+        { label: t('settings.proxy'), value: 'tongyi.proxy', type: 'checkbox', placeholder: t('settings.proxyTips') },
+      ]
+    },
   ]
 })
 

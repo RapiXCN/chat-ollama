@@ -7,14 +7,9 @@
     "chat": "对话",
     "settings": "设置"
   },
-  "colorMode": {
-    "system": "自动",
-    "light": "浅色",
-    "dark": "深色"
-  },
   "home": {
-    "welcome": "欢迎来到 ChatOllama",
-    "description": "ChatOllama 是一个网络应用程序，可以用来管理您的 <a class=\"text-primary font-bold\" href=\"https://ollama.ai\" target=\"_blank\">Ollama</a> 服务器，并与来自世界任何地方的 LLMs 聊天。",
+    "welcome": "欢迎来到 ChatDoc",
+    "description": "ChatDoc 是一个网络应用程序，可以用来管理您的 <a class=\"text-primary font-bold\" href=\"https://ollama.ai\" target=\"_blank\">Ollama</a> 服务器，并与来自世界任何地方的 LLMs 聊天。",
     "quickStart": "快速开始",
     "step1": "确保您的Ollama服务器可以公开访问。如果需要，您可以使用 <a class=\"text-primary\" href=\"https://ngrok.com/\" target=\"_blank\">ngrok</a> 来公开本地机器中的Ollama服务器。",
     "step2": "去到 <a class=\"text-primary\" href=\"/settings\"> @:menu.settings </a> 页面来设置你的 Ollama 服务器的访问地址。",
@@ -105,6 +100,7 @@
     "moonshot": "Moonshot",
     "gemini": "Gemini",
     "groq": "Groq",
+    "tongyi": "Tongyi",
     "setSuccessfully": "设置保存成功！",
     "linkRuleMessage": "{0} 开头必须是 http:// 或者 https://",
     "proxy": "代理",

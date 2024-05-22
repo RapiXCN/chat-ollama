@@ -152,21 +152,12 @@ const fetchStream = async (url: string, options: RequestInit) => {
   if (response.body) {
     messages.value = messages.value.filter((message) => message.type !== 'loading')
     const reader = response.body.getReader()
-    const splitter = ' \n\n'
-    let prevPart = ''
     while (true) {
       const { done, value } = await reader.read()
       if (done) break
 
-      const chunk = prevPart + new TextDecoder().decode(value)
-
-      if (!chunk.includes(splitter)) {
-        prevPart = chunk
-        continue
-      }
-      prevPart = ''
-
-      for (const line of chunk.split(splitter)) {
+      const chunk = new TextDecoder().decode(value)
+      for (const line of chunk.split('\n\n')) {
         if (!line) continue
 
         console.log('line: ', line)
@@ -218,7 +209,7 @@ const onSend = async (data: ChatBoxFormData) => {
   chatInputBoxRef.value?.reset()
 
   const instructionMessage = instructionInfo.value
-    ? { role: "system", content: instructionInfo.value.instruction }
+    ? { role: "system", content: instructionInfo.value.instruction, timestamp }
     : []
 
   const id = await saveMessage({
@@ -234,14 +225,14 @@ const onSend = async (data: ChatBoxFormData) => {
 
   const userMessage = { role: "user", id, content: input, timestamp } as const
   emits('message', userMessage)
-  const attachedMessagesCount = sessionInfo.value?.attachedMessagesCount || 0
+
   const body = JSON.stringify({
     knowledgebaseId: knowledgeBaseInfo.value?.id,
     model: model.value,
     family: modelFamily.value,
     messages: [
       instructionMessage,
-      attachedMessagesCount > 0 ? messages.value.slice(-attachedMessagesCount) : [],
+      messages.value.slice(messages.value.length - sessionInfo.value!.attachedMessagesCount),
       omit(userMessage, ['id'])
     ].flat(),
     stream: true,

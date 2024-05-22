@@ -41,6 +41,11 @@ export const keysStore = useStorage<ContextKeys>('keys', {
     endpoint: getLocalValue('keys.groq_api_host'),
     proxy: false,
   },
+  tongyi: {
+    key: getLocalValue('keys.tongyi_api_key'),
+    endpoint: getLocalValue('keys.tongyi_api_host'),
+    proxy: false,
+  },
 } as ContextKeys)
 
 export const getKeysHeader = () => ({ 'x-chat-ollama-keys': JSON.stringify(keysStore.value) })

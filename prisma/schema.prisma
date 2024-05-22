@@ -1,5 +1,5 @@
-datasource sqlite {
-  provider = "sqlite"
+datasource db {
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 

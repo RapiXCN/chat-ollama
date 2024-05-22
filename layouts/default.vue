@@ -1,47 +1,43 @@
-<script lang="ts" setup>
-const route = useRoute()
-const links = useMenus()
+<script setup>
+const { t } = useI18n()
 
-const open = ref(false)
-
-watch(() => route.path, () => {
-  open.value = false
+const links = computed(() => {
+  return [
+    [
+      { label: t('menu.home'), icon: 'i-heroicons-home', to: '/' },
+      { label: t('menu.models'), icon: 'i-heroicons-rectangle-stack', to: '/models' },
+      { label: t('menu.instructions'), icon: 'i-iconoir-terminal', to: '/instructions' },
+      { label: t('menu.knowledgeBases'), icon: 'i-heroicons-book-open', to: '/knowledgebases' },
+      { label: t('menu.chat'), icon: 'i-iconoir-chat-lines', to: '/chat' },
+      { label: t('menu.settings'), icon: 'i-heroicons-cog-6-tooth', to: '/settings' }
+    ],
+  ]
 })
 </script>
-
 <template>
-  <div class="border-b border-gray-200 dark:border-gray-700" style="--top-height: 48px;">
-    <div class="flex items-center justify-between max-w-6xl mx-auto px-4 h-[var(--top-height)]">
+  <div class="border-b border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between max-w-6xl mx-auto px-4">
       <h1 class="flex flex-row items-center mr-2">
         <TheLogo class="w-[32px] h-[32px] mr-2" />
         <span class="text-primary font-semibold text-lg">{{ $config.public.appName }}</span>
       </h1>
-      <div class="hidden md:block">
-        <UHorizontalNavigation :links="[links]">
-          <template #default="{ link }">
-            <span class="group-hover:text-primary relative hidden lg:inline">{{ link.label }}</span>
-          </template>
-        </UHorizontalNavigation>
+      <div>
+        <ClientOnly>
+          <UHorizontalNavigation :links="links" />
+        </ClientOnly>
       </div>
-      <div class="hidden md:flex items-center">
+      <div class="flex items-center">
         <div class="mx-2">
           <ColorMode />
         </div>
-        <ULink to="https://github.com/sugarforever/chat-ollama"
-               target="_blank"
-               class="i-mdi-github text-2xl ml-2 mr-4"></ULink>
+<!--        <ULink to="https://github.com/sugarforever/chat-ollama"-->
+<!--               target="_blank"-->
+<!--               class="i-mdi-github text-2xl ml-2 mr-4"></ULink>-->
         <Auth />
-      </div>
-      <div class="md:hidden">
-        <UPopover v-model:open="open" overlay :ui="{ width: 'w-[100vw] !translate-y-[var(--top-height)]', overlay: { background: '!bg-transparent' } }">
-          <UButton icon="i-material-symbols-menu-rounded" color="gray" />
-          <template #panel>
-            <MobileMenu />
-          </template>
-        </UPopover>
       </div>
     </div>
   </div>
+
   <div id="main" class="p-4 box-border overflow-auto" style="height: calc(100% - 61px)">
     <slot />
   </div>

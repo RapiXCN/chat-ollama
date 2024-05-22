@@ -3,10 +3,15 @@ import { Embeddings } from "@langchain/core/embeddings"
 import { ParentDocumentRetriever } from "langchain/retrievers/parent_document"
 import { RedisDocstore } from '@/server/docstore/redis'
 import { createVectorStore } from '@/server/utils/vectorstores'
+import { InMemoryStore } from "langchain/storage/in_memory";
+
 
 export const createRetriever = async (embeddings: Embeddings, collectionName: string) => {
   const vectorStore = createVectorStore(embeddings, collectionName)
+  console.log("vectorStore", vectorStore)
+  console.log("collectionName", collectionName)
   if (process.env.VECTOR_STORE === 'chroma') {
+    console.log("chroma", process.env.VECTOR_STORE)
     await vectorStore.ensureCollection()
   }
 

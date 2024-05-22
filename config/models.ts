@@ -4,15 +4,15 @@ export const MODEL_FAMILIES = {
   anthropic: 'Anthropic',
   moonshot: 'Moonshot',
   gemini: 'Gemini',
-  groq: 'Groq'
+  groq: 'Groq',
+  tongyi: 'Tongyi'
 }
 
 export const OPENAI_GPT_MODELS = [
   "gpt-3.5-turbo",
   "gpt-4",
   "gpt-4-32k",
-  "gpt-4-turbo-preview",
-  "gpt-4o"
+  "gpt-4-turbo-preview"
 ]
 
 export const AZURE_OPENAI_GPT_MODELS = [
@@ -33,6 +33,11 @@ export const GEMINI_EMBEDDING_MODELS = [
   "embedding-001"
 ]
 
+export const TONGYI_EMBEDDING_MODELS = [
+  "text-embedding-v1",
+  "text-embedding-v2"
+]
+
 export const ANTHROPIC_MODELS = [
   "claude-3-haiku-20240307",
   "claude-3-opus-20240229",
@@ -50,9 +55,7 @@ export const MOONSHOT_MODELS = [
 
 export const GEMINI_MODELS = [
   "gemini-1.0-pro",
-  "gemini-1.0-pro-vision-latest",
-  "gemini-1.5-flash-latest",
-  "gemini-1.5-pro-latest"
+  "gemini-1.0-pro-vision-latest"
 ]
 
 export const GROQ_MODELS = [
@@ -61,4 +64,9 @@ export const GROQ_MODELS = [
   "llama2-70b-4096",
   "mixtral-8x7b-32768",
   "gemma-7b-it"
+]
+
+export const TONGYI_MODELS = [
+  "qwen-plus",
+  "qwen1.5-7b-chat"
 ]

@@ -7,14 +7,9 @@
     "chat": "Chat",
     "settings": "Settings"
   },
-  "colorMode": {
-    "system": "System",
-    "light": "Light",
-    "dark": "Dark"
-  },
   "home": {
-    "welcome": "Welcome to ChatOllama",
-    "description": "ChatOllama is a web application that allows you to manage your <a class=\"text-primary font-bold\" href=\"https://ollama.ai\" target=\"_blank\">Ollama</a> server and chat with the served LLMs from anywhere in the world.",
+    "welcome": "Welcome to ChatDoc",
+    "description": "ChatDoc is a web application that allows you to manage your <a class=\"text-primary font-bold\" href=\"https://ollama.ai\" target=\"_blank\">Ollama</a> server and chat with the served LLMs from anywhere in the world.",
     "quickStart": "Quick Start",
     "step1": "Make sure your Ollama server is publicly accessible. If required, you can use <a class=\"text-primary\" href=\"https://ngrok.com/\" target=\"_blank\">ngrok</a> to expose your Ollama server in your local machine to the public.",
     "step2": "Go to <a class=\"text-primary\" href=\"/settings\"> @:menu.settings </a> to set the host of your Ollama server.",
@@ -105,6 +100,7 @@
     "moonshot": "Moonshot",
     "gemini": "Gemini",
     "groq": "Groq",
+    "tongyi": "Tongyi",
     "setSuccessfully": "Set successfully!",
     "linkRuleMessage": "{0} must start with http:// or https://",
     "proxy": "Proxy",

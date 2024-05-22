@@ -23,7 +23,7 @@ async function pingOllama(endpoint: string) {
   const res = await $fetch.raw(endpoint, { ignoreResponseError: true }).catch(() => null)
   if (res?.status !== 200) {
     const errMsg = [
-      `ChatOllama is unable to establish a connection with ${endpoint}, please check:`,
+      `ChatDoc is unable to establish a connection with ${endpoint}, please check:`,
       '  1. Is Ollama server running ? (run `ollama serve` in terminal to start the server)',
       `  2. Can the server where ChatOllama is located connect to \`${endpoint}\` ?`
     ].join('\n')
